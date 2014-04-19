@@ -18,7 +18,7 @@ import re
  
 # User modifiable constants:
 TEMPLATE='main.cc'
-COMPILE_CMD='g++ -g -std=c++0x'
+COMPILE_CMD='g++ -g -std=c++0x -Wl,-stack_size -Wl,0x10000000000'
 SAMPLE_INPUT='input'
 SAMPLE_OUTPUT='output'
 MY_OUTPUT='my_output'
@@ -140,6 +140,7 @@ def generate_test_script(folder, num_tests, problem):
             'if ! '+COMPILE_CMD+' {0}.cc; then\n'
             '    exit\n'
             'fi\n'
+            'echo Compiled Successfully\n'
             'INPUT_NAME='+SAMPLE_INPUT+'\n'
             'OUTPUT_NAME='+SAMPLE_OUTPUT+'\n'
             'MY_NAME='+MY_OUTPUT+'\n').format(problem))
