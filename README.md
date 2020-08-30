@@ -1,4 +1,4 @@
-Codeforces Parser v1.3
+Codeforces Parser v1.5.1
 =================
 
 Summary
@@ -10,34 +10,52 @@ This is a python program that parses the sample tests from the contest problem p
 
 You can also find this article here, [http://codeforces.com/blog/entry/10416](http://codeforces.com/blog/entry/10416)
 
-### Example:
-`./parse.py contest_number (e.g. ./parse.py 380)`
+### Installation
 
-Where `380` is the contest number, not the round number! Check the URL of the contest on your browser, that is the number you are supposed to use.
+ * Arch Linux (AUR): https://aur.archlinux.org/packages/codeforces-parser-git/ (note that parse.py is renamed codeforces-parser)
+
+### Example:
+`./parse.py contest_number (e.g. ./parse.py 513)`
+
+Where `512` is the contest number, not the round number! Check the URL of the contest on your browser, that is the number you are supposed to use.
 
 ### Effect:
 
-##### What will happen, for example, if `./parse.py 380` is executed?
+##### What will happen, for example, if `./parse.py 512` is executed?
 
-1. Directories `380/A`, `380/B`, `380/C`, `380/D` and so on are created depending on the contest number of problems.
-2. For each problem, `main.cc` is copied and renamed to the problem letter to the corresponding directory. **You can put the path of your usual template in `parse.py:9`**.
-3. Problem page is downloaded from Codeforces website, and parsed. Sample input/output files are generated, e.g. `sample_input1`, `sample_output1`, `sample_input2`, `sample_output2` and so on. You can create your own test cases after that, just keep the same naming format as others test cases.
+1. Directories `512/A`, `512/B`, `512/C`, `512/D` and so on are created depending on the contest number of problems.
+2. For each problem, `main.cc` is copied and renamed to the problem letter to the corresponding directory. **You can put the path of your usual template in `parse.py:20`**.
+3. Problem page is downloaded from Codeforces website, and parsed. Sample input/output files are generated, e.g. `input1`, `output1`, `input2`, `output2` and so on. You can create your own test cases after that, just keep the same naming format as others test cases.
 4. A script `test.sh` is generated. You can use it to compile and run the sample tests after you finish coding. Just run `./test.sh` in the problem directory.
 
 ##### What will happen if `./test.sh` is executed?
 
-1. Compilation: `g++ -g main.cc -std=c++0x`. **You can change the compile options in `parse.py:8`**.
+1. Compilation: `g++ -g -std=c++0x -Wall $DBG main.cc`. **You can change the compile options in `parse.py:21`**. Variable $DBG is set to -DDEBUG if you start "./test.sh -d", otherwise it is empty. This allows for compilation with and without debug macros.
 2. Run each sample tests on your program (`a.out`), and check the output by `diff`. If it's correct, print **Accepted**, or else print the sample test that went wrong.
+3. Please note that for problems with multiple correct answers it might say that your output is incorrect.
 
 ### Collaborators and Versions:
 
 ##### List of CodeForces Collaborators:
 + [johnathan79717](http://codeforces.com/profile/johnathan79717)
 + [brunoja](http://codeforces.com/profile/brunoja)
-
-If you have any suggestions and/or bugs send a message!
++ [Matthias Kauer (mini addition)]
+If you have any suggestions and/or bugs drop a message!
 
 ##### Versions Changes:
++ **1.5.1:**
+Minor bug fixes related to Python 2 vs Python 3.
+Makes the template file to use the proper language extension.
++ **1.5:**
+Added debug flag (-d) to enable DEBUG macro (read above for details).
+Fixed problems parsing for problem names that are not called A, B, etc. Such as A1, A2..
++ **1.4.1:**
+Minor fixes, such as typos, bugs and special characters handling.
++ **1.4:**
+Changed how the parser gets the problems. During the competitions the page is slightly different.
+Fixed some invalid character on input and output causing the script to crash.
+Forcing a new line on the input/output if there is none.
+Fixed some line number information in this README file.
 + **1.3:**
 Some minor fixes and code organizing. Also fixed some typos.
 Removed the _sample_ from default input and output files.
